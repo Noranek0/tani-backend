@@ -3,6 +3,10 @@ use clap::{Parser, Subcommand};
 use dotenv;
 use std::path::PathBuf;
 
+pub mod db;
+pub mod models;
+pub mod schema;
+
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Cli {
