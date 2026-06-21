@@ -1,0 +1,15 @@
+services:
+  db:
+    image: docker.io/postgres:18-alpine
+    environment:
+      - POSTGRES_USER=tani
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=tani
+      - PGDATA=/var/lib/postgresql
+    volumes:
+      - pgsqldata:/var/lib/postgresql
+    ports:
+      - 5432:5432
+
+volumes:
+  pgsqldata:
