@@ -1,6 +1,7 @@
-use std::path::PathBuf;
 use actix_web::{App, HttpResponse, HttpServer, Responder, get, post, web};
 use clap::{Parser, Subcommand};
+use dotenv;
+use std::path::PathBuf;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -30,8 +31,9 @@ enum Commands {
     },
     /// start serve application
     Serve {},
+    /// show current env variable
+    ShowEnv {},
 }
-
 
 #[get("/")]
 async fn hello() -> impl Responder {
@@ -71,9 +73,16 @@ async fn main() -> Result<(), std::io::Error> {
                 println!("Not printing testing lists...");
             }
         }
-        Some(Commands::Serve {  }) => {
+        Some(Commands::Serve {}) => {
             println!("Start listening http request...");
             start_http_server().await?
+        }
+        Some(Commands::ShowEnv {}) => {
+            let vars: Vec<(String, String)> = dotenv::vars().collect();
+
+            for element in vars {
+                println!("{} = {}", element.0, element.1);
+            }
         }
         None => {}
     }
